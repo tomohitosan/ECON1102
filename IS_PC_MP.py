@@ -1,8 +1,9 @@
 # Filename: IS_PC_MP.py
 # Author: Tomohito Okabe
-# Date: May 24, 2013
+# Date: June 07, 2013
 
 class ISPCMP:
+    
     
     def __init__(self, Y, R, pi, omicron, a_c, a_g, a_ex, a_im, a_i, i, nu, 
                 b_bar, r_bar, pi_bar):
@@ -46,12 +47,23 @@ class ISPCMP:
             self.a_i = 0
             self.i = self.r_bar + self.pi_bar
             
-
+####################################################################################
+# Modified on June 07,2013
+            
     def update_var(self, t):
-        if t >= 1:
+        alpha = 0.5
+        delta = 0.05
+        if t > 10:
+            if abs((abs(self.R) - self.r_bar)/self.r_bar) < delta:
+                self.R = self.r_bar
+            else:
+                self.R = self.R*alpha
+            self.Y = self.a_bar() - self.b_bar*(self.R - self.r_bar)
+
+        else:
             self.R = self.i - self.pi
             self.Y = self.a_bar() - self.b_bar*(self.R - self.r_bar)
             delta_pi = self.nu*self.Y + self.omicron
             self.pi = delta_pi + self.pi
-
-        
+            
+##################################################################################        
